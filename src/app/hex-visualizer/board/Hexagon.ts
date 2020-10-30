@@ -2,17 +2,20 @@ import { MathHelper } from '../MathHelper';
 import { CanvasSingleton } from "./CanvasSingleton";
 import { Point } from './Point';
 import * as d3 from 'd3-polygon';
+import { HexagonColorInstruction } from './HexagonColorInstruction';
 
 
 export class Hexagon {
     public origin: Point;
     public radius: number;
     public vertices: Point[]
+    public colorInstruction: HexagonColorInstruction;
 
-    public constructor(origin: Point, radius: number) {
+    public constructor(origin: Point, radius: number, colorInstruction: HexagonColorInstruction) {
         this.origin = origin;
         this.radius = radius;
         this.vertices = [];
+        this.colorInstruction = colorInstruction;
 
         this.generateVertices(this.origin, this.radius);
     }
@@ -56,7 +59,10 @@ export class Hexagon {
                 ctx.moveTo(this.vertices[i].x, this.vertices[i].y);
             } else {
                 ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
-            }            
+            }
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'green';
+            ctx.stroke();         
         }
         // finish line back to start point
         ctx.lineTo(this.vertices[0].x, this.vertices[0].y);

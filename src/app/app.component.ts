@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 import { HexVisualizerComponent } from './hex-visualizer/hex-visualizer.component';
 
 @Component({
@@ -8,11 +9,13 @@ import { HexVisualizerComponent } from './hex-visualizer/hex-visualizer.componen
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('hexViz', {static: false}) hexVisualizer: HexVisualizerComponent
   title = 'CMPUT355-A4-HEX';
   gameControlsForm: FormGroup;
-  @ViewChild('hexViz', {static: false}) hexVisualizer: HexVisualizerComponent
+  running: boolean = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+              private messageSvc: NzMessageService) {}
 
   ngOnInit(): void {
     this.gameControlsForm = this.fb.group({
@@ -27,8 +30,14 @@ export class AppComponent implements OnInit {
         this.gameControlsForm.get("rows").value,
         this.gameControlsForm.get("cols").value,
       )
+      this.running = true;
     } else {
-      console.log("please fill out all fields")
+      this.messageSvc.warning("please fill out all fields")
     }
+  }
+
+  stopGame() {
+    this.hexVisualizer.stopGame()
+    this.running = false;
   }
 }

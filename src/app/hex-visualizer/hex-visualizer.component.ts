@@ -11,7 +11,7 @@ import { HexGrid } from './board/HexGrid';
 export class HexVisualizerComponent implements OnInit {
   @ViewChild('canvas', {static: true}) canvasRef: ElementRef<HTMLCanvasElement>;
   hexGrid: HexGrid;
-
+  animationId: number;
 
   constructor() { }
 
@@ -26,6 +26,12 @@ export class HexVisualizerComponent implements OnInit {
   startGame(rows: number, cols: number) {
     this.hexGrid = new HexGrid(rows, cols, 40);
     this.animationLoop()
+  }
+
+  stopGame() {
+    let canvas = CanvasSingleton.getInstance().getCanvas();
+    CanvasSingleton.getInstance().getContext().clearRect(0, 0, canvas.width, canvas.height);
+    window.cancelAnimationFrame(this.animationId);
   } 
 
   animationLoop() {
@@ -34,12 +40,16 @@ export class HexVisualizerComponent implements OnInit {
     CanvasSingleton.getInstance().getContext().clearRect(0, 0, canvas.width, canvas.height);
     // render the hex grid
     this.hexGrid.renderGrid();
-    window.requestAnimationFrame(this.animationLoop.bind(this))
+    // call next animation loop
+    this.animationId = window.requestAnimationFrame(this.animationLoop.bind(this))
+    
   }
 
   mousClickOnCanvas(clickEvent: MouseEvent) {
     // get x, y coordinates of click relative to canvas coordinate system (0, 0) = top-left corner
     this.hexGrid.checkMouseClick(clickEvent.offsetX, clickEvent.offsetY);
+    // check for win state after previous input
+    this.hexGrid.checkWinState();
   }
 
 }
