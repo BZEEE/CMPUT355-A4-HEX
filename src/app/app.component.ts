@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { GamePieceColor } from './hex-visualizer/board/GamePieceColor';
 import { GameSettingsSingleton } from './hex-visualizer/GameSettingsSingleton';
 import { HexVisualizerComponent } from './hex-visualizer/hex-visualizer.component';
+import { MoveManager } from './hex-visualizer/moves/MoveManager';
 import { FormValidatorService } from './services/form-validator.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
   gameControlsForm: FormGroup;
   playerOptions: string[]
   gameSettings: GameSettingsSingleton
+  moveManager: MoveManager
 
   constructor(private fb: FormBuilder,
               private messageSvc: NzMessageService,
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.gameSettings = GameSettingsSingleton.getInstance()
     this.playerOptions = Object.values(GamePieceColor)
+    this.moveManager = MoveManager.getInstance()
     this.gameControlsForm = this.fb.group({
       rows: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
       cols: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
@@ -52,5 +55,13 @@ export class AppComponent implements OnInit {
   stopGame() {
     this.hexVisualizer.stopGame()
     this.gameSettings.running = false;
+  }
+
+  undoMove() {
+    this.moveManager.undo()
+  }
+
+  redoMove() {
+    this.moveManager.redo()
   }
 }

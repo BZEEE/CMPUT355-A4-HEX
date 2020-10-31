@@ -50,4 +50,12 @@ export class MoveManager {
             this.historyList.push( command );
         }
     }
+
+    public getHistoryList(): ICommand[] {
+        return this.historyList;
+    }
+
+    public getRedoList(): ICommand[] {
+        return this.redoList;
+    }
 }

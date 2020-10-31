@@ -14,7 +14,7 @@ export enum HexagonSide {
     referring too when referencing the vertex's
     
                        Top
-                        *
+                        *  4
                        / \
                       /   \ 
                      /     \
@@ -24,7 +24,7 @@ export enum HexagonSide {
                  /             \
                 /               \
                /                 \
-Top-Left      *                   *   Top-Right                       
+Top-Left    3 *                   * 5  Top-Right                       
               |                   |
               |                   |                
               |                   |
@@ -32,7 +32,7 @@ Top-Left      *                   *   Top-Right
               |                   |
               |                   |
               |                   |
-Bottom-Left   *                   *  Bottom-Right
+Bottom-Left 2 *                   * 0 Bottom-Right
                \                 /
                 \               /
                  \             /
@@ -42,6 +42,6 @@ Bottom-Left   *                   *  Bottom-Right
                      \     /
                       \   /
                        \ /
-                        *
+                        *  1
                       Bottom  
     */

@@ -14,19 +14,31 @@ export class MoveCommand implements ICommand {
 
     public constructor(move: Move) {
         this.gameSettings = GameSettingsSingleton.getInstance()
+        this.move = move
     }
 
     public execute(): void {
         let space: BoardSpace = this.gameSettings.getSpecificBoardSpace(this.move.rowIndex, this.move.colIndex)
-        space.gamePiece = null
+        if (this.move.gamePiece === GamePieceColor.Black) {
+            space.gamePiece = new BlackPiece(space.hexagon.origin, this.gameSettings.getGamePieceRadius());
+            // just replaced a black stone on the board so now its white's turn
+            this.gameSettings.currentTurn = GamePieceColor.White;
+        } else if (this.move.gamePiece === GamePieceColor.White) {
+            space.gamePiece = new WhitePiece(space.hexagon.origin, this.gameSettings.getGamePieceRadius());
+            // just replaced a white stone on the board so now its black's turn
+            this.gameSettings.currentTurn = GamePieceColor.Black;
+        }
     }
 
     public unexecute(): void {
         let space: BoardSpace = this.gameSettings.getSpecificBoardSpace(this.move.rowIndex, this.move.colIndex)
+        space.gamePiece = null
         if (this.move.gamePiece === GamePieceColor.Black) {
-            space.gamePiece = new BlackPiece(space.hexagon.origin, this.gameSettings.getGamePieceRadius());
+            // just just took away a black stone on the board so now it remains black's turn
+            this.gameSettings.currentTurn = GamePieceColor.Black;
         } else if (this.move.gamePiece === GamePieceColor.White) {
-            space.gamePiece = new WhitePiece(space.hexagon.origin, this.gameSettings.getGamePieceRadius());
+            // just took away a white stone on the board so now it remains white's turn
+            this.gameSettings.currentTurn = GamePieceColor.White;
         }
     }
 

@@ -15,8 +15,6 @@ import { Move } from '../moves/Move';
 export class HexGrid {
     canvasSingleton: CanvasSingleton
     gameSettingsSingleton: GameSettingsSingleton
-    // hexagons: Array<Array<Hexagon>>
-    // boardSpaces: Array<Array<GamePiece>>;
 
     public constructor() {
         this.canvasSingleton = CanvasSingleton.getInstance()
@@ -52,8 +50,6 @@ export class HexGrid {
         }
     }
 
-
-
     public renderGrid(): void {
         // render hexagons
         this.gameSettingsSingleton.getHexagonsInBoard().forEach((hexagon: Hexagon) => {
@@ -79,17 +75,15 @@ export class HexGrid {
                     // check if there is already a black or white game piece occupying that space
                     if (space.gamePiece == null) {
                         if (this.gameSettingsSingleton.currentTurn == GamePieceColor.Black) {
-                            // set a black stone to the space that was clicked, and then set that it is black's turn to now make a move
-                            space.gamePiece = new BlackPiece(space.hexagon.origin, this.gameSettingsSingleton.getGamePieceRadius());
-                            this.gameSettingsSingleton.currentTurn = GamePieceColor.White;
                             // let Move Manager know that we made a valid move
                             MoveManager.getInstance().invokeCommand(new MoveCommand(new Move(i, j, GamePieceColor.Black)))
+                            // set that it is white's turn to now make a move
+                            this.gameSettingsSingleton.currentTurn = GamePieceColor.White;
                         } else if (this.gameSettingsSingleton.currentTurn == GamePieceColor.White) {
-                            // set a white stone to the space that was clicked, and then set that it is black's turn to now make a move
-                            space.gamePiece = new WhitePiece(space.hexagon.origin, this.gameSettingsSingleton.getGamePieceRadius());
-                            this.gameSettingsSingleton.currentTurn = GamePieceColor.Black;
                             // let Move Manager know that we made a valid move
                             MoveManager.getInstance().invokeCommand(new MoveCommand(new Move(i, j, GamePieceColor.White)))
+                            // set that it is white's turn to now make a move
+                            this.gameSettingsSingleton.currentTurn = GamePieceColor.Black;
                         }
                     }
                 }
