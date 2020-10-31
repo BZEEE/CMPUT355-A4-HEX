@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import { GamePieceColor } from './hex-visualizer/board/GamePieceColor';
+import { GameSettingsSingleton } from './hex-visualizer/GameSettingsSingleton';
 import { HexVisualizerComponent } from './hex-visualizer/hex-visualizer.component';
+import { FormValidatorService } from './services/form-validator.service';
 
 @Component({
   selector: 'app-root',
@@ -12,25 +15,35 @@ export class AppComponent implements OnInit {
   @ViewChild('hexViz', {static: false}) hexVisualizer: HexVisualizerComponent
   title = 'CMPUT355-A4-HEX';
   gameControlsForm: FormGroup;
-  running: boolean = false;
+  playerOptions: string[]
+  gameSettings: GameSettingsSingleton
 
   constructor(private fb: FormBuilder,
-              private messageSvc: NzMessageService) {}
+              private messageSvc: NzMessageService,
+              private formValidatorSvc: FormValidatorService) {}
 
   ngOnInit(): void {
+    this.gameSettings = GameSettingsSingleton.getInstance()
+    this.playerOptions = Object.values(GamePieceColor)
     this.gameControlsForm = this.fb.group({
-      rows: new FormControl(null, [Validators.required]),
-      cols: new FormControl(null, [Validators.required]),
+      rows: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
+      cols: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
+      startingPlayer: new FormControl(null, [Validators.required]),
+      tileSize: new FormControl(null, [Validators.required]),
     })
+    // set default value
+    this.gameControlsForm.get("startingPlayer").setValue("black")
+    this.gameControlsForm.get("tileSize").setValue(20)
   }
 
   startGame() {
-    if (this.gameControlsForm.valid) {
-      this.hexVisualizer.startGame(
-        this.gameControlsForm.get("rows").value,
-        this.gameControlsForm.get("cols").value,
-      )
-      this.running = true;
+    if (this.formValidatorSvc.validateForm(this.gameControlsForm)) {
+      this.gameSettings.rows = this.gameControlsForm.get("rows").value;
+      this.gameSettings.cols = this.gameControlsForm.get("cols").value;
+      this.gameSettings.currentTurn = this.gameControlsForm.get("startingPlayer").value;
+      this.gameSettings.setRadius(this.gameControlsForm.get("tileSize").value)
+      this.gameSettings.running = true
+      this.hexVisualizer.startGame()
     } else {
       this.messageSvc.warning("please fill out all fields")
     }
@@ -38,6 +51,6 @@ export class AppComponent implements OnInit {
 
   stopGame() {
     this.hexVisualizer.stopGame()
-    this.running = false;
+    this.gameSettings.running = false;
   }
 }

@@ -5,7 +5,7 @@
         <form [formGroup]="gameControlsForm" style="padding-bottom: 20px;" nz-form>
             <div style="width: 100%;">
                 <nz-form-item>
-                    <nz-form-control nzErrorTip="Please specify number of board rows">
+                    <nz-form-control nzErrorTip="Number of board rows must be between 2 and 19">
                         <nz-form-label nzFor="rows">Enter Rows</nz-form-label>
                         <input nz-input type="number" name="rows" formControlName="rows" />
                     </nz-form-control>
@@ -13,15 +13,33 @@
             </div>
             <div style="width: 100%;">
                 <nz-form-item>
-                    <nz-form-control nzErrorTip="Please specify number of board cols">
+                    <nz-form-control nzErrorTip="Number of board columns must be between 2 and 19">
                         <nz-form-label nzFor="cols">Enter Columns</nz-form-label>
                         <input nz-input type="number" name="cols" formControlName="cols" />
                     </nz-form-control>
                 </nz-form-item>
             </div>
+            <div style="width: 100%;">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please select which player should">
+                        <nz-form-label nzFor="startingPlayer">Choose Which Player Starts</nz-form-label>
+                        <nz-select name="startingPlayer" formControlName="startingPlayer">
+                            <nz-option *ngFor="let option of playerOptions" [nzLabel]="option" [nzValue]="option" ></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div style="width: 100%;">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="Please select a tile size">
+                        <nz-form-label nzFor="tileSize">Select Tile Size</nz-form-label>
+                        <nz-slider nzMin="20" nzMax="50" name="tileSize" formControlName="tileSize"></nz-slider>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
         </form>
-        <button *ngIf="!running" nz-button nzType="primary" style="color: white; background-color: #006eff; width: 100%; " (click)="startGame()">START GAME</button>
-        <button *ngIf="running" nz-button nzType="primary" style="color: white; background-color: #ff0033; width: 100%; " (click)="stopGame()">STOP GAME</button>
+        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="color: white; background-color: #006eff; width: 100%; " (click)="startGame()">START GAME</button>
+        <button *ngIf="gameSettings.running" nz-button nzType="primary" style="color: white; background-color: #ff0033; width: 100%; " (click)="stopGame()">STOP GAME</button>
     </div>
     <div style="width: 80%; height: 100%;">
         <app-hex-visualizer #hexViz></app-hex-visualizer>

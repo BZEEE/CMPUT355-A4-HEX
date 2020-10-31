@@ -2,20 +2,19 @@ import { MathHelper } from '../MathHelper';
 import { CanvasSingleton } from "./CanvasSingleton";
 import { Point } from './Point';
 import * as d3 from 'd3-polygon';
-import { HexagonColorInstruction } from './HexagonColorInstruction';
+import { HexagonSide } from './HexagonSide'
+import { HexagonVertex } from './HexagonVertex';
 
 
 export class Hexagon {
     public origin: Point;
     public radius: number;
-    public vertices: Point[]
-    public colorInstruction: HexagonColorInstruction;
+    public vertices: HexagonVertex[]
 
-    public constructor(origin: Point, radius: number, colorInstruction: HexagonColorInstruction) {
+    public constructor(origin: Point, radius: number) {
         this.origin = origin;
         this.radius = radius;
         this.vertices = [];
-        this.colorInstruction = colorInstruction;
 
         this.generateVertices(this.origin, this.radius);
     }
@@ -29,24 +28,35 @@ export class Hexagon {
         return 1.5 * radius;
     }
 
-    public getVertices(): Point[] {
+    public getVertices(): HexagonVertex[] {
         return this.vertices
+    }
+
+    public getVertexBasedOnSide(side: HexagonSide): HexagonVertex {
+        for (let i = 0; i < this.vertices.length; i++) {
+            if (this.vertices[i].edgeName === side) {
+                return this.vertices[i]
+            }
+        }
+        return null;
     }
 
     private generateVertices(origin: Point, radius: number): void {
         let angleOffset: number = 60;
+        let i = 0
         for (let currentAngle: number = 30; currentAngle <= 360.0; currentAngle += angleOffset) {
             let x: number = origin.x + (Math.cos(MathHelper.toRadians(currentAngle)) * radius);
             let y: number = origin.y + (Math.sin(MathHelper.toRadians(currentAngle)) * radius);
-            this.vertices.push(new Point(x, y));
+            this.vertices.push(new HexagonVertex(new Point(x, y), i));
+            i += 1
         }
     }
 
     public containsPoint(targetPoint: Point): boolean {
         // https://www.npmjs.com/package/robust-point-in-polygon
         let points: Array<[number, number]> = []
-        this.vertices.forEach((v: Point) => {
-            points.push([v.x, v.y])
+        this.vertices.forEach((v: HexagonVertex) => {
+            points.push([v.point.x, v.point.y])
         }) 
         return d3.polygonContains(points, [targetPoint.x, targetPoint.y])
     }
@@ -56,16 +66,16 @@ export class Hexagon {
         ctx.beginPath();
         for(let i = 0; i < this.vertices.length; i++) {
             if (i === 0) {
-                ctx.moveTo(this.vertices[i].x, this.vertices[i].y);
+                ctx.moveTo(this.vertices[i].point.x, this.vertices[i].point.y);
             } else {
-                ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+                ctx.lineTo(this.vertices[i].point.x, this.vertices[i].point.y);
             }
             ctx.lineWidth = 2;
             ctx.strokeStyle = 'green';
             ctx.stroke();         
         }
         // finish line back to start point
-        ctx.lineTo(this.vertices[0].x, this.vertices[0].y);
+        ctx.lineTo(this.vertices[0].point.x, this.vertices[0].point.y);
         ctx.stroke();
     }
 }

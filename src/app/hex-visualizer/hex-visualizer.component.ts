@@ -23,8 +23,8 @@ export class HexVisualizerComponent implements OnInit {
     CanvasSingleton.getInstance().getCanvas().style.backgroundColor = "#db591d"; 
   }
 
-  startGame(rows: number, cols: number) {
-    this.hexGrid = new HexGrid(rows, cols, 40);
+  startGame() {
+    this.hexGrid = new HexGrid();
     this.animationLoop()
   }
 
