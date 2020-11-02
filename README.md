@@ -1,5 +1,10 @@
 # CMPUT355A4HEX
 
+Using Github pages to  host project, view at
+https://bzeee.github.io/
+
+## Development server
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
 
 1.Install Node.js
@@ -8,12 +13,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 4.navigate to cloned directory, (cd CMPUT355-A4-HEX)
 5.install angular, run the command (npm install -g @angular/cli)
 6.install all other node modules, run the command (npm update)
-7.run the development server to view project, run the command (ng serve)
-
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+7.Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
