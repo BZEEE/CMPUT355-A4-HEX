@@ -124,6 +124,10 @@
               "devServerTarget": "CMPUT355-A4-HEX:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }
