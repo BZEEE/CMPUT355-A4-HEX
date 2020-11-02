@@ -10,6 +10,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 6.install all other node modules, run the command (npm update)
 7.run the development server to view project, run the command (ng serve)
 
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
