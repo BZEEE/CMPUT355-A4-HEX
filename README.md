@@ -1,7 +1,7 @@
 # CMPUT355A4HEX
 
 Using Github pages to  host project, view at
-https://bzeee.github.io/
+https://bzeee.github.io/CMPUT355-A4-HEX/
 
 
 ## Development server
