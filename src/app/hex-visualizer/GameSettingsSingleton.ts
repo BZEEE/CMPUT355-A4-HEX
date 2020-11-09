@@ -8,6 +8,10 @@ export class GameSettingsSingleton {
 
     private static singleton: GameSettingsSingleton = null;
 
+    // This defines which side the black and white borders go. This must be known for the solver. Changing the values here will change it for the rendering too -- so it stays consistent with the solver and what you see.
+    public readonly COLOR_LEFT_RIGHT: GamePieceColor = GamePieceColor.Black;
+    public readonly COLOR_UP_DOWN: GamePieceColor = GamePieceColor.White;
+
     public rows: number;
     public cols: number;
 

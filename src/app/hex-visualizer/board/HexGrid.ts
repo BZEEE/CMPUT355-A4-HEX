@@ -126,7 +126,7 @@ export class HexGrid {
                 this.gameSettingsSingleton.getSpecificBoardSpace(0, i).hexagon.getVertexBasedOnSide(HexagonSide.TopRight).point.y
             );
             ctx.lineWidth = 5;
-            ctx.strokeStyle = GamePieceColor.White;
+            ctx.strokeStyle = this.gameSettingsSingleton.COLOR_UP_DOWN;
             ctx.stroke();
         }
     }
@@ -154,7 +154,7 @@ export class HexGrid {
                 this.gameSettingsSingleton.getSpecificBoardSpace(this.gameSettingsSingleton.rows - 1, i).hexagon.getVertexBasedOnSide(HexagonSide.BottomRight).point.y
             );
             ctx.lineWidth = 5;
-            ctx.strokeStyle = GamePieceColor.White;
+            ctx.strokeStyle = this.gameSettingsSingleton.COLOR_UP_DOWN;
             ctx.stroke();
         }
     }
@@ -182,7 +182,7 @@ export class HexGrid {
                 this.gameSettingsSingleton.getSpecificBoardSpace(i, 0).hexagon.getVertexBasedOnSide(HexagonSide.Bottom).point.y
             );
             ctx.lineWidth = 5;
-            ctx.strokeStyle = GamePieceColor.Black;
+            ctx.strokeStyle = this.gameSettingsSingleton.COLOR_LEFT_RIGHT;
             ctx.stroke();
         }
     }
@@ -210,7 +210,7 @@ export class HexGrid {
                 this.gameSettingsSingleton.getSpecificBoardSpace(i, this.gameSettingsSingleton.cols - 1).hexagon.getVertexBasedOnSide(HexagonSide.BottomRight).point.y
             );
             ctx.lineWidth = 5;
-            ctx.strokeStyle = GamePieceColor.Black;
+            ctx.strokeStyle = this.gameSettingsSingleton.COLOR_LEFT_RIGHT;
             ctx.stroke();
         }
     }
