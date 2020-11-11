@@ -11,6 +11,7 @@ import {BoardSpace} from './BoardSpace';
 import {MoveManager} from '../moves/MoveManager';
 import {MoveCommand} from '../moves/MoveCommand';
 import {Move} from '../moves/Move';
+import {BFSSolver} from '../solver/BFSSolver';
 
 export class HexGrid {
     canvasSingleton: CanvasSingleton;
@@ -91,9 +92,26 @@ export class HexGrid {
         }
     }
 
+    /**
+     * This function attempts to solve the grid under either player. It returns true if one of the players have won the game, false otherwise (i.e. no player has a valid path from one side to the other.
+     */
     public checkWinState(): boolean {
-        // write for determining if a player won the game
-        throw new Error('not Implemented yet, File: HexGrid.ts (Function: checkWinState()');
+
+        const solver: BFSSolver = new BFSSolver(this.gameSettingsSingleton.getBoardSpacesAsMatrix());
+
+        // TODO: eventually remove console.log()s
+
+        if (solver.solve(GamePieceColor.Black)) {
+            console.log('Black Wins');
+            return true;
+        } else if (solver.solve(GamePieceColor.White)) {
+            console.log('White Wins');
+            return true;
+        } else {
+            console.log('No Outcome');
+            return false;
+        }
+
     }
 
     renderBorder() {
