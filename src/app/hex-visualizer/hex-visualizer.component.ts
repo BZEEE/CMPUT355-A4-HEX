@@ -20,7 +20,7 @@ export class HexVisualizerComponent implements OnInit {
     CanvasSingleton.getInstance().setContext(this.canvasRef.nativeElement);
     CanvasSingleton.getInstance().getCanvas().width = Math.round(window.innerWidth * 0.8)
     CanvasSingleton.getInstance().getCanvas().height = window.innerHeight;
-    CanvasSingleton.getInstance().getCanvas().style.backgroundColor = "#db591d"; 
+    CanvasSingleton.getInstance().getCanvas().style.backgroundColor = "#db591d";
   }
 
   startGame() {
@@ -32,7 +32,7 @@ export class HexVisualizerComponent implements OnInit {
     let canvas = CanvasSingleton.getInstance().getCanvas();
     CanvasSingleton.getInstance().getContext().clearRect(0, 0, canvas.width, canvas.height);
     window.cancelAnimationFrame(this.animationId);
-  } 
+  }
 
   animationLoop() {
     // clear the canvas
@@ -42,10 +42,10 @@ export class HexVisualizerComponent implements OnInit {
     this.hexGrid.renderGrid();
     // call next animation loop
     this.animationId = window.requestAnimationFrame(this.animationLoop.bind(this))
-    
+
   }
 
-  mousClickOnCanvas(clickEvent: MouseEvent) {
+  mouseClickOnCanvas(clickEvent: MouseEvent) {
     // get x, y coordinates of click relative to canvas coordinate system (0, 0) = top-left corner
     this.hexGrid.checkMouseClick(clickEvent.offsetX, clickEvent.offsetY);
     // check for win state after previous input
