@@ -40,8 +40,12 @@
         </form>
         <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
         <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
-        <button *ngIf="gameSettings.running && moveManager.getHistoryList().length > 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px;" (click)="undoMove()">UNDO MOVE</button>
-        <button *ngIf="gameSettings.running && moveManager.getRedoList().length > 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px;" (click)="redoMove()">REDO GAME</button>
+
+        <!-- To place components size by side -->
+        <div style="display: flex; justify-content: space-evenly;">
+            <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px; margin-right: 3px;" (click)="undoMove()">UNDO MOVE</button>
+            <button *ngIf="gameSettings.running" [disabled]="moveManager.getRedoList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px; margin-left: 3px;" (click)="redoMove()">REDO MOVE</button>
+        </div>
     </div>
     <div style="width: 80%; height: 100%;">
         <app-hex-visualizer #hexViz></app-hex-visualizer>
