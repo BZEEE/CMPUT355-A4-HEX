@@ -1,67 +1,69 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
-import { GamePieceColor } from './hex-visualizer/board/GamePieceColor';
-import { GameSettingsSingleton } from './hex-visualizer/GameSettingsSingleton';
-import { HexVisualizerComponent } from './hex-visualizer/hex-visualizer.component';
-import { MoveManager } from './hex-visualizer/moves/MoveManager';
-import { FormValidatorService } from './services/form-validator.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {NzMessageService} from 'ng-zorro-antd';
+import {GamePieceColor} from './hex-visualizer/board/GamePieceColor';
+import {GameSettingsSingleton} from './hex-visualizer/GameSettingsSingleton';
+import {HexVisualizerComponent} from './hex-visualizer/hex-visualizer.component';
+import {MoveManager} from './hex-visualizer/moves/MoveManager';
+import {FormValidatorService} from './services/form-validator.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild('hexViz', {static: false}) hexVisualizer: HexVisualizerComponent
-  title = 'CMPUT355-A4-HEX';
-  gameControlsForm: FormGroup;
-  playerOptions: string[]
-  gameSettings: GameSettingsSingleton
-  moveManager: MoveManager
+    @ViewChild('hexViz', {static: false}) hexVisualizer: HexVisualizerComponent;
+    title = 'CMPUT355-A4-HEX';
+    gameControlsForm: FormGroup;
+    playerOptions: string[];
+    gameSettings: GameSettingsSingleton;
+    moveManager: MoveManager;
 
-  constructor(private fb: FormBuilder,
-              private messageSvc: NzMessageService,
-              private formValidatorSvc: FormValidatorService) {}
-
-  ngOnInit(): void {
-    this.gameSettings = GameSettingsSingleton.getInstance()
-    this.playerOptions = Object.values(GamePieceColor)
-    this.moveManager = MoveManager.getInstance()
-    this.gameControlsForm = this.fb.group({
-      rows: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
-      cols: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
-      startingPlayer: new FormControl(null, [Validators.required]),
-      tileSize: new FormControl(null, [Validators.required]),
-    })
-    // set default value
-    this.gameControlsForm.get("startingPlayer").setValue("black")
-    this.gameControlsForm.get("tileSize").setValue(20)
-  }
-
-  startGame() {
-    if (this.formValidatorSvc.validateForm(this.gameControlsForm)) {
-      this.gameSettings.rows = this.gameControlsForm.get("rows").value;
-      this.gameSettings.cols = this.gameControlsForm.get("cols").value;
-      this.gameSettings.currentTurn = this.gameControlsForm.get("startingPlayer").value;
-      this.gameSettings.setRadius(this.gameControlsForm.get("tileSize").value)
-      this.gameSettings.running = true
-      this.hexVisualizer.startGame()
-    } else {
-      this.messageSvc.warning("please fill out all fields")
+    constructor(private fb: FormBuilder,
+                private messageSvc: NzMessageService,
+                private formValidatorSvc: FormValidatorService) {
     }
-  }
 
-  stopGame() {
-    this.hexVisualizer.stopGame()
-    this.gameSettings.running = false;
-  }
+    ngOnInit(): void {
+        this.gameSettings = GameSettingsSingleton.getInstance();
+        this.playerOptions = Object.values(GamePieceColor);
+        this.moveManager = MoveManager.getInstance();
+        this.gameControlsForm = this.fb.group({
+            rows: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
+            cols: new FormControl(null, [Validators.required, Validators.min(2), Validators.max(19)]),
+            startingPlayer: new FormControl(null, [Validators.required]),
+            tileSize: new FormControl(null, [Validators.required]),
+        });
+        // set default value
+        this.gameControlsForm.get('startingPlayer').setValue('black');
+        this.gameControlsForm.get('tileSize').setValue(20);
+    }
 
-  undoMove() {
-    this.moveManager.undo()
-  }
+    startGame() {
+        if (this.formValidatorSvc.validateForm(this.gameControlsForm)) {
+            this.gameSettings.rows = this.gameControlsForm.get('rows').value;
+            this.gameSettings.cols = this.gameControlsForm.get('cols').value;
+            this.gameSettings.currentTurn = this.gameControlsForm.get('startingPlayer').value;
+            this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
+            this.gameSettings.running = true;
+            this.hexVisualizer.startGame();
+        } else {
+            this.messageSvc.warning('please fill out all fields');
+        }
+    }
 
-  redoMove() {
-    this.moveManager.redo()
-  }
+    stopGame() {
+        this.hexVisualizer.stopGame();
+        this.gameSettings.running = false;
+    }
+
+    undoMove() {
+        this.moveManager.undo();
+    }
+
+    redoMove() {
+        this.moveManager.redo();
+    }
+
 }

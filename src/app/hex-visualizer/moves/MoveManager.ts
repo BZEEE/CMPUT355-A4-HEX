@@ -1,4 +1,4 @@
-import { ICommand } from './ICommand';
+import {ICommand} from './ICommand';
 
 
 export class MoveManager {
@@ -11,43 +11,44 @@ export class MoveManager {
 
     private constructor() {
         // private constructor for singleton
-        this.historyList = []
-        this. redoList = []
+        this.historyList = [];
+        this.redoList = [];
     }
 
     public static getInstance() {
         if (this.singleton == null) {
             this.singleton = new MoveManager();
         }
-        return this.singleton
+        return this.singleton;
     }
 
     // invoke a command and add it to history list
-    public invokeCommand(command: ICommand ): void {
+    public invokeCommand(command: ICommand): void {
         command.execute();
         if (command.isReversible()) {
-            this.historyList.push( command );
+            this.historyList.push(command);
         } else {
-            this.historyList = []
+            this.historyList = [];
         }
         if (this.redoList.length > 0) {
-            this.redoList = []
+            this.redoList = [];
         }
     }
-   
+
 
     public undo(): void {
         if (this.historyList.length > 0) {
-            let command: ICommand = this.historyList.pop()
+            let command: ICommand = this.historyList.pop();
             command.unexecute();
-            this.redoList.push( command );
+            this.redoList.push(command);
         }
     }
+
     public redo(): void {
         if (this.redoList.length > 0) {
             let command: ICommand = this.redoList.pop();
             command.execute();
-            this.historyList.push( command );
+            this.historyList.push(command);
         }
     }
 
@@ -58,4 +59,5 @@ export class MoveManager {
     public getRedoList(): ICommand[] {
         return this.redoList;
     }
+
 }
