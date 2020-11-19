@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
     stopGame() {
         this.hexVisualizer.stopGame();
         this.gameSettings.running = false;
+        this.moveManager.reset();
     }
 
     undoMove() {

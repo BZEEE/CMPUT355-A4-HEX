@@ -60,4 +60,12 @@ export class MoveManager {
         return this.redoList;
     }
 
+    /**
+     * Resets the state of both history lists
+     */
+    public reset() {
+        this.historyList = [];
+        this.redoList = [];
+    }
+
 }
