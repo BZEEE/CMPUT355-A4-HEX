@@ -38,10 +38,10 @@
                 </nz-form-item>
             </div>
         </form>
-        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="color: white; background-color: #006eff; width: 100%; " (click)="startGame()">START GAME</button>
-        <button *ngIf="gameSettings.running" nz-button nzType="primary" style="color: white; background-color: #ff0033; width: 100%; " (click)="stopGame()">STOP GAME</button>
-        <button *ngIf="gameSettings.running && moveManager.getHistoryList().length > 0" nz-button nzType="primary" style="color: white; background-color: #006eff; width: 100%; margin-top: 15px;" (click)="undoMove()">UNDO MOVE</button>
-        <button *ngIf="gameSettings.running && moveManager.getRedoList().length > 0" nz-button nzType="primary" style="color: white; background-color: #006eff; width: 100%; margin-top: 15px;" (click)="redoMove()">REDO GAME</button>
+        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
+        <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
+        <button *ngIf="gameSettings.running && moveManager.getHistoryList().length > 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px;" (click)="undoMove()">UNDO MOVE</button>
+        <button *ngIf="gameSettings.running && moveManager.getRedoList().length > 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px;" (click)="redoMove()">REDO GAME</button>
     </div>
     <div style="width: 80%; height: 100%;">
         <app-hex-visualizer #hexViz></app-hex-visualizer>
