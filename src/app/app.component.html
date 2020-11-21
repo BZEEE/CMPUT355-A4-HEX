@@ -42,9 +42,9 @@
         <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
 
         <!-- To place components size by side -->
-        <div style="display: flex; justify-content: space-evenly;">
-            <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px; margin-right: 3px;" (click)="undoMove()">UNDO MOVE</button>
-            <button *ngIf="gameSettings.running" [disabled]="moveManager.getRedoList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-top: 15px; margin-left: 3px;" (click)="redoMove()">REDO MOVE</button>
+        <div style="display: flex; justify-content: space-evenly; margin-top: 15px;">
+            <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-right: 3px;" (click)="undoMove()">UNDO MOVE</button>
+            <button *ngIf="gameSettings.running" [disabled]="moveManager.getRedoList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-left: 3px;" (click)="redoMove()">REDO MOVE</button>
         </div>
     </div>
     <div style="width: 80%; height: 100%;">
