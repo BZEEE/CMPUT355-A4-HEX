@@ -46,6 +46,51 @@
             <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-right: 7px;" (click)="undoMove()">UNDO MOVE</button>
             <button *ngIf="gameSettings.running" [disabled]="moveManager.getRedoList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-left: 7px;" (click)="redoMove()">REDO MOVE</button>
         </div>
+
+        <div style="margin-top: 15px;" *ngIf="gameSettings.running">
+
+<!--            <h3 style="text-align: center;">Game Information</h3>-->
+
+            <nz-table nzBordered nzTemplateMode nzSize="middle" style="margin-top: 10px">
+                <thead>
+                    <tr>
+                        <th nzAlign="left">Statistic</th>
+                        <th nzAlign="center">{{ gameSettings.COLOR_LEFT_RIGHT }}</th>
+                        <th nzAlign="center">{{ gameSettings.COLOR_UP_DOWN }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td nzAlign="left" nz-tooltip nzTooltipTitle="The number of spaces on the board with a piece in it.">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <b>Filled Spaces</b>
+                                </div>
+                                <div>
+                                    <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td nzAlign="center">{{ gameSettings.currentGameResult.filledSpacesLR }}</td>
+                        <td nzAlign="center">{{ gameSettings.currentGameResult.filledSpacesUD }}</td>
+                    </tr>
+                    <tr>
+                        <td nzAlign="left" nz-tooltip nzTooltipTitle="The total number of empty spaces on the board.">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <b>Empty Spaces</b>
+                                </div>
+                                <div>
+                                    <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+                                </div>
+                            </div>
+                        </td>
+                        <td nzAlign="center" colspan="2">{{ gameSettings.currentGameResult.emptySpaces }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+
     </div>
     <div style="width: 80%; height: 100%;">
         <app-hex-visualizer #hexViz></app-hex-visualizer>
