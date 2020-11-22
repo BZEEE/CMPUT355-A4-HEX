@@ -1,6 +1,4 @@
-
-
 export enum GamePieceColor {
-    Black = "black",
-    White = "white"
+    Black = 'Black',
+    White = 'White'
 }
