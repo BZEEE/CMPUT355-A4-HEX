@@ -45,6 +45,10 @@ export class AppComponent implements OnInit {
             this.gameSettings.rows = this.gameControlsForm.get('rows').value;
             this.gameSettings.cols = this.gameControlsForm.get('cols').value;
             this.gameSettings.currentTurn = this.gameControlsForm.get('startingPlayer').value;
+
+            // Disable form when game is running
+            this.gameControlsForm.disable();
+
             this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
             this.gameSettings.running = true;
             this.hexVisualizer.startGame();
@@ -57,6 +61,10 @@ export class AppComponent implements OnInit {
         this.hexVisualizer.stopGame();
         this.gameSettings.running = false;
         this.moveManager.reset();
+
+        // Enable form when game is not running
+        this.gameControlsForm.enable();
+
     }
 
     undoMove() {
