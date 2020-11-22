@@ -87,6 +87,18 @@
                         </td>
                         <td nzAlign="center" colspan="2">{{ gameSettings.currentGameResult.emptySpaces }}</td>
                     </tr>
+                    <tr>
+                        <td><b>Winner</b></td>
+                        <td *ngIf="!gameSettings.currentGameResult.winner" nz-tooltip nzTooltipTitle="A winner has not been determined yet." nzTooltipPlacement="bottom" nzAlign="center" colspan="2">
+                            <i nz-icon nzType="question-circle" nzTheme="twotone"></i>
+                        </td>
+                        <td *ngIf="gameSettings.currentGameResult.winner" nzAlign="center">
+                            <i *ngIf="gameSettings.currentGameResult.winner === gameSettings.COLOR_LEFT_RIGHT" nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"></i>
+                        </td>
+                        <td *ngIf="gameSettings.currentGameResult.winner" nzAlign="center">
+                            <i *ngIf="gameSettings.currentGameResult.winner === gameSettings.COLOR_UP_DOWN" nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"></i>
+                        </td>
+                    </tr>
                 </tbody>
             </nz-table>
         </div>
