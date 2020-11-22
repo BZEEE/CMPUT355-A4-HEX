@@ -2,8 +2,6 @@ import {GamePieceColor} from './GamePieceColor';
 import {Hexagon} from './/Hexagon';
 import {GamePiece} from './pieces/GamePiece';
 import {Point} from './Point';
-import {BlackPiece} from './pieces/BlackPiece';
-import {WhitePiece} from './pieces/WhitePiece';
 import {CanvasSingleton} from './CanvasSingleton';
 import {HexagonSide} from './HexagonSide';
 import {GameSettingsSingleton} from '../GameSettingsSingleton';
@@ -12,6 +10,7 @@ import {MoveManager} from '../moves/MoveManager';
 import {MoveCommand} from '../moves/MoveCommand';
 import {Move} from '../moves/Move';
 import {BFSSolver} from '../solver/BFSSolver';
+import {GameResult} from '../solver/GameResult';
 
 export class HexGrid {
     canvasSingleton: CanvasSingleton;
@@ -99,18 +98,32 @@ export class HexGrid {
 
         const solver: BFSSolver = new BFSSolver(this.gameSettingsSingleton.getBoardSpacesAsMatrix());
 
-        // TODO: eventually remove console.log()s
+        let result: GameResult;
 
-        if (solver.solve(GamePieceColor.Black)) {
-            console.log('Black Wins');
-            return true;
-        } else if (solver.solve(GamePieceColor.White)) {
-            console.log('White Wins');
-            return true;
-        } else {
-            console.log('No Outcome');
-            return false;
+        for (const color of [GamePieceColor.Black, GamePieceColor.White]) {
+
+            // Solve game with particular color
+            result = solver.solve(color);
+
+            // Quit prematurely if someone has won
+            if (result.hasWon) {
+                break;
+            }
+
         }
+
+        this.gameSettingsSingleton.currentGameResult = result;
+
+        // DEBUG
+        if (result.hasWon) {
+            console.log(result.winner + ' has won');
+        } else {
+            console.log('No outcome');
+        }
+        console.log(result);
+        // DEBUG
+
+        return result.hasWon;
 
     }
 

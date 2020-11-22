@@ -61,10 +61,16 @@ export class AppComponent implements OnInit {
 
     undoMove() {
         this.moveManager.undo();
+
+        // Force a check so that GameResult gets updated.
+        this.hexVisualizer.hexGrid.checkWinState();
     }
 
     redoMove() {
         this.moveManager.redo();
+
+        // Force a check so that GameResult gets updated.
+        this.hexVisualizer.hexGrid.checkWinState();
     }
 
 }

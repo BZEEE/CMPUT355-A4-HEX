@@ -2,6 +2,7 @@ import {BoardSpace} from './board/BoardSpace';
 import {Hexagon} from './board/Hexagon';
 import {GamePiece} from './board/pieces/GamePiece';
 import {GamePieceColor} from './board/GamePieceColor';
+import {GameResult} from './solver/GameResult';
 
 
 export class GameSettingsSingleton {
@@ -16,6 +17,8 @@ export class GameSettingsSingleton {
     public cols: number;
 
     public currentTurn: string;
+
+    public currentGameResult: GameResult;
 
     public running: boolean;
 

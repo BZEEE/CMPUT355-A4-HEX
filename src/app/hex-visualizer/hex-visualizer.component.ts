@@ -26,6 +26,10 @@ export class HexVisualizerComponent implements OnInit {
 
     startGame() {
         this.hexGrid = new HexGrid();
+
+        // Force a check so that GameResult gets updated.
+        this.hexGrid.checkWinState();
+
         this.animationLoop();
     }
 

@@ -2,18 +2,12 @@ import {BoardSpace} from '../board/BoardSpace';
 import {GamePieceColor} from '../board/GamePieceColor';
 import {GameSettingsSingleton} from '../GameSettingsSingleton';
 import {GamePiece} from '../board/pieces/GamePiece';
+import {GameResult} from './GameResult';
 
 /**
  * This class solves a given Hex board using BFS, given a player color to check for (white or black).
  */
 export class BFSSolver {
-
-    private readonly board: Array<Array<BoardSpace>>;
-
-    private readonly settings: GameSettingsSingleton;
-
-    private readonly rows: number;
-    private readonly cols: number;
 
     /**
      * @param board The Hex board as a 2-dimensional nested array
@@ -29,12 +23,48 @@ export class BFSSolver {
 
     }
 
+    private readonly board: Array<Array<BoardSpace>>;
+
+    private readonly settings: GameSettingsSingleton;
+
+    private readonly rows: number;
+    private readonly cols: number;
+
+    /**
+     * This method builds a path in a form of an array given the parents dictionary and a particular node.
+     * @param parents The parents dictionary. Every key is a string repr. of a [number, number] and every value is either a [number, number], or null.
+     * @param lastNode The node (last in the path) to start analyzing the path from.
+     */
+    private static buildPath(parents: { [p: string]: [number, number] }, lastNode: [number, number]): Array<[number, number]> {
+
+        const path: Array<[number, number]> = new Array<[number, number]>(lastNode);
+
+        // While the first element of the path always has a parent, keep adding items to the array
+        while (true) {
+
+            // Get parent of the first element
+            const parent = parents[path[0].toString()];
+
+            // If it's null, we're done
+            if (parent === null) {
+                break;
+            }
+
+            // If not, add the parent and continue (the next iteration will deal with parent's parent).
+            path.unshift(parent);
+
+        }
+
+        return path;
+
+    }
+
     /**
      * Solves the board with the parameters given in the constructor and gives back the result.
      * @param color The color of the player to check for
      * @return true if the board has an unbroken path of pieces (of the same color) from the appropriate color's two sides -- false otherwise.
      */
-    public solve(color: GamePieceColor): boolean {
+    public solve(color: GamePieceColor): GameResult {
 
         // This is an array that acts as the main BFS queue
         const queue: Array<[number, number]> = new Array<[number, number]>();
@@ -79,16 +109,14 @@ export class BFSSolver {
             // Pop the last element off of the queue, this will be the node we analyze
             const node: [number, number] = queue.pop();
 
-            // This is the win condition for the color that is on the top and down. In particular, if we expand a node who is in the last row of the board (at index `this.rows - 1`), then we know that there is an unbroken line of that same color from one side to the other -- since the only way that we could have expanded such a node is if we followed some path from the start to the end.
-            if ((node[0] === this.rows - 1) && (color === this.settings.COLOR_UP_DOWN)) {
-                this.printPath(parents, node);
-                return true;
+            // This is the win condition for the color that is on the left and right. In particular, if we expand a node who is in the last row of the board (at index `this.rows - 1`), then we know that there is an unbroken line of that same color from one side to the other -- since the only way that we could have expanded such a node is if we followed some path from the start to the end.
+            if ((color === this.settings.COLOR_LEFT_RIGHT) && (node[1] === this.cols - 1)) {
+                return this.assembleResult(true, color, parents, node);
             }
 
-            // Same logic as above, just for the left and right player
-            if ((node[1] === this.cols - 1) && (color === this.settings.COLOR_LEFT_RIGHT)) {
-                this.printPath(parents, node);
-                return true;
+            // Same logic as above, just for the up and down player
+            if ((color === this.settings.COLOR_UP_DOWN) && (node[0] === this.rows - 1)) {
+                return this.assembleResult(true, color, parents, node);
             }
 
             // For all neighbours of the current node (represented in i & j values), add the **valid** ones (one with the current color) to the queue
@@ -115,7 +143,7 @@ export class BFSSolver {
 
         }
 
-        return false;
+        return this.assembleResult(false, null, null, null);
 
     }
 
@@ -190,16 +218,49 @@ export class BFSSolver {
 
     }
 
-    // Debug -- to be removed or redone later
-    private printPath(parents: { [p: string]: [number, number] }, node: [number, number]) {
+    /**
+     * This method assembles statistics from the analyzed game into a GameResult object.
+     * @param hasWon If the game has been won.
+     * @param winner The winner, if applicable. Optional when hasWon is false.
+     * @param parents The parents array used by the BFS algorithm. Optional when hasWon is false.
+     * @param lastNode The last node in the path that won the game. Optional when hasWon is false.
+     */
+    private assembleResult(hasWon: boolean,
+                           winner?: GamePieceColor,
+                           parents?: { [key: string]: [number, number] },
+                           lastNode?: [number, number]): GameResult {
 
-        const parent: [number, number] = parents[node.toString()];
-
-        if (parent !== null) {
-            this.printPath(parents, parent);
+        // Basic error checking
+        if (hasWon && (winner === undefined || parents === undefined || lastNode === undefined)) {
+            throw Error('Please define winner, parents, and lastNode when assembling a winning game!');
         }
 
-        console.log(node.toString());
+        let emptySpaces = 0;
+        let filledSpacesLR = 0;
+        let filledSpacesUD = 0;
+
+        // For all pieces, increment the appropriate count
+        for (const row of this.board) {
+            for (const piece of row) {
+                if (piece.gamePiece === null) {
+                    emptySpaces++;
+                } else if (piece.gamePiece.getColor() === this.settings.COLOR_LEFT_RIGHT) {
+                    filledSpacesLR++;
+                } else if (piece.gamePiece.getColor() === this.settings.COLOR_UP_DOWN) {
+                    filledSpacesUD++;
+                }
+            }
+        }
+
+        return new GameResult(
+            hasWon,
+            hasWon ? winner : null,
+            hasWon ? BFSSolver.buildPath(parents, lastNode) : null,
+            emptySpaces,
+            filledSpacesLR,
+            filledSpacesUD,
+        );
 
     }
+
 }
