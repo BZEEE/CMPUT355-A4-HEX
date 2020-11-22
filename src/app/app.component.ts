@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
             tileSize: new FormControl(null, [Validators.required]),
         });
         // set default value
-        this.gameControlsForm.get('startingPlayer').setValue('black');
+        this.gameControlsForm.get('startingPlayer').setValue(this.gameSettings.COLOR_LEFT_RIGHT);
         this.gameControlsForm.get('tileSize').setValue(20);
     }
 
