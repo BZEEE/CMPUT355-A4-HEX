@@ -55,8 +55,11 @@ export class HexVisualizerComponent implements OnInit {
     mouseClickOnCanvas(clickEvent: MouseEvent) {
         // get x, y coordinates of click relative to canvas coordinate system (0, 0) = top-left corner
         this.hexGrid.checkMouseClick(clickEvent.offsetX, clickEvent.offsetY);
-        // check for win state after previous input
-        this.checkWinState();
+
+        // check for win state after previous input, only if the game is running.
+        if (this.hexGrid.gameSettingsSingleton.running) {
+            this.checkWinState();
+        }
     }
 
     /**
