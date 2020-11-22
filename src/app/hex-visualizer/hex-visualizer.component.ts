@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import {CanvasSingleton} from './board/CanvasSingleton';
 import {HexGrid} from './board/HexGrid';
+import {NzMessageService} from 'ng-zorro-antd';
+import {GamePieceColor} from './board/GamePieceColor';
 
 @Component({
     selector: 'app-hex-visualizer',
@@ -13,7 +15,7 @@ export class HexVisualizerComponent implements OnInit {
     hexGrid: HexGrid;
     animationId: number;
 
-    constructor() {
+    constructor(private messageSvc: NzMessageService) {
     }
 
     ngOnInit(): void {
@@ -28,7 +30,7 @@ export class HexVisualizerComponent implements OnInit {
         this.hexGrid = new HexGrid();
 
         // Force a check so that GameResult gets updated.
-        this.hexGrid.checkWinState();
+        this.checkWinState();
 
         this.animationLoop();
     }
@@ -54,7 +56,24 @@ export class HexVisualizerComponent implements OnInit {
         // get x, y coordinates of click relative to canvas coordinate system (0, 0) = top-left corner
         this.hexGrid.checkMouseClick(clickEvent.offsetX, clickEvent.offsetY);
         // check for win state after previous input
-        this.hexGrid.checkWinState();
+        this.checkWinState();
+    }
+
+    /**
+     * A middle man between the actual hex visualizer's checkWinState() method and this component. This checks the win state and displays a message if it has been solved.
+     */
+    checkWinState() {
+        if (this.hexGrid.checkWinState()) {
+            this.notifyWon(this.hexGrid.gameSettingsSingleton.currentGameResult.winner);
+        }
+    }
+
+    /**
+     * Display a message saying that a color has won.
+     * @param color The color to include in the message.
+     */
+    notifyWon(color: GamePieceColor) {
+        this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
     }
 
 }

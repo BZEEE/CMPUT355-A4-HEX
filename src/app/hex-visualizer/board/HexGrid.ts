@@ -114,15 +114,6 @@ export class HexGrid {
 
         this.gameSettingsSingleton.currentGameResult = result;
 
-        // DEBUG
-        if (result.hasWon) {
-            console.log(result.winner + ' has won');
-        } else {
-            console.log('No outcome');
-        }
-        console.log(result);
-        // DEBUG
-
         return result.hasWon;
 
     }
