@@ -42,6 +42,10 @@
         <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
         <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
 
+        <div *ngFor="let image of _albums; let i=index">
+            <img [src]="image.src" (click)="open(i)" />
+        </div>
+        
         <!-- To place components size by side -->
         <div style="display: flex; justify-content: space-evenly; margin-top: 15px;">
             <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-right: 7px;" (click)="undoMove()">UNDO MOVE</button>
@@ -49,9 +53,6 @@
         </div>
 
         <div style="margin-top: 15px;" *ngIf="gameSettings.running">
-        <div *ngFor="let image of _albums; let i=index">
-            <img [src]="image.thumb" (click)="open(i)" />
-        </div>
 <!--            <h3 style="text-align: center;">Game Information</h3>-->
 
             <nz-table nzBordered nzTemplateMode nzSize="middle" style="margin-top: 10px">

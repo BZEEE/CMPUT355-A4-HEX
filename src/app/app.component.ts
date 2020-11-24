@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
-import { Lightbox } from 'ngx-lightbox';
+import {Lightbox, IAlbum} from 'ngx-lightbox';
 import {GamePieceColor} from './hex-visualizer/board/GamePieceColor';
 import {GameSettingsSingleton} from './hex-visualizer/GameSettingsSingleton';
 import {HexVisualizerComponent} from './hex-visualizer/hex-visualizer.component';
@@ -20,7 +20,8 @@ export class AppComponent implements OnInit {
     playerOptions: string[];
     gameSettings: GameSettingsSingleton;
     moveManager: MoveManager;
-    private _album: Array<number> = [];
+    // private _album: Array = [];
+    public _albums: Array<IAlbum>;
 
     constructor(private fb: FormBuilder,
                 private messageSvc: NzMessageService,
@@ -41,6 +42,26 @@ export class AppComponent implements OnInit {
         // set default value
         this.gameControlsForm.get('startingPlayer').setValue(this.gameSettings.COLOR_LEFT_RIGHT);
         this.gameControlsForm.get('tileSize').setValue(20);
+        this._albums = [];
+        const src = 'assets/yosemite.jpg';
+        const caption = 'Image caption here';
+        const thumb = 'assets/yosemite.jpg';
+        const album = {
+            src: src,
+            caption: caption,
+            thumb: thumb
+        };
+        this._albums.push(album);
+    }
+    
+    open(index: number): void {
+        // open lightbox
+        this._lightbox.open(this._albums, index);
+    }
+    
+    close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
     }
 
     startGame() {
