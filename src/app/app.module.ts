@@ -11,6 +11,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { LightboxModule } from 'ngx-lightbox';
 
 registerLocaleData(en);
 
@@ -26,7 +27,8 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    LightboxModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [{ provide: NZ_I18N, useValue: en_US }],

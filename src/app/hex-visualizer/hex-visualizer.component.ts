@@ -80,8 +80,11 @@ export class HexVisualizerComponent implements OnInit {
     }
 
     startTutorial() {
-      this.checkWinState();
-      this.animationLoop();
+      // this.checkWinState();
+      // this.animationLoop();
+      if (this.hexGrid.gameSettingsSingleton.getBoardSpacesAsMatrix()) {
+        console.log();
       }
+    }
   
 }

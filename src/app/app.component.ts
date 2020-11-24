@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
+import { Lightbox } from 'ngx-lightbox';
 import {GamePieceColor} from './hex-visualizer/board/GamePieceColor';
 import {GameSettingsSingleton} from './hex-visualizer/GameSettingsSingleton';
 import {HexVisualizerComponent} from './hex-visualizer/hex-visualizer.component';
@@ -19,10 +20,12 @@ export class AppComponent implements OnInit {
     playerOptions: string[];
     gameSettings: GameSettingsSingleton;
     moveManager: MoveManager;
+    private _album: Array<number> = [];
 
     constructor(private fb: FormBuilder,
                 private messageSvc: NzMessageService,
-                private formValidatorSvc: FormValidatorService) {
+                private formValidatorSvc: FormValidatorService,
+                private _lightbox: Lightbox) {
     }
 
     ngOnInit(): void {
@@ -57,6 +60,17 @@ export class AppComponent implements OnInit {
         }
     }
 
+    // simple tutorial
+    startTutorial() {
+        this.gameSettings.rows = 3;
+        this.gameSettings.cols = 3;
+        this.gameSettings.currentTurn = "Black";
+        this.gameControlsForm.disable();
+        this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
+        this.gameSettings.running = true;
+        this.hexVisualizer.startGame();
+    }
+
     stopGame() {
         this.hexVisualizer.stopGame();
         this.gameSettings.running = false;
@@ -81,11 +95,4 @@ export class AppComponent implements OnInit {
         this.hexVisualizer.checkWinState();
     }
 
-    startTutorial() {
-        this.gameSettings.rows = 3;
-        this.gameSettings.cols = 3;
-        this.gameSettings.currentTurn = "black";
-        this.gameSettings.running = true;
-        this.hexVisualizer.startGame();
-    }
 }
