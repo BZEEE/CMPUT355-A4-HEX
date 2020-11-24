@@ -79,4 +79,9 @@ export class HexVisualizerComponent implements OnInit {
         this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
     }
 
+    startTutorial() {
+      this.checkWinState();
+      this.animationLoop();
+      }
+  
 }

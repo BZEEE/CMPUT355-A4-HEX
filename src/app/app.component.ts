@@ -85,6 +85,7 @@ export class AppComponent implements OnInit {
         this.gameSettings.rows = 3;
         this.gameSettings.cols = 3;
         this.gameSettings.currentTurn = "black";
-        
+        this.gameSettings.running = true;
+        this.hexVisualizer.startGame();
     }
 }

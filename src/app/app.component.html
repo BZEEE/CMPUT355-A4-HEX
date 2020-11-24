@@ -38,6 +38,7 @@
                 </nz-form-item>
             </div>
         </form>
+        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; margin-bottom: 5%;" (click)="startTutorial()">TUTORIAL</button>
         <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
         <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
 
