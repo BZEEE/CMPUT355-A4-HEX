@@ -11,14 +11,17 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { LightboxModule } from 'ngx-lightbox';
+import { ModalComponent as ModalComponent } from './modal/modal.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    HexVisualizerComponent
+    HexVisualizerComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -28,10 +31,12 @@ registerLocaleData(en);
     FormsModule,
     ReactiveFormsModule,
     NgZorroAntdModule,
-    LightboxModule
+    MatButtonModule,
+    MatDialogModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ModalComponent]
 })
 export class AppModule { }

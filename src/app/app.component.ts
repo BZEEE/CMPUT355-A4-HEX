@@ -1,12 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
-import {Lightbox, IAlbum} from 'ngx-lightbox';
 import {GamePieceColor} from './hex-visualizer/board/GamePieceColor';
 import {GameSettingsSingleton} from './hex-visualizer/GameSettingsSingleton';
 import {HexVisualizerComponent} from './hex-visualizer/hex-visualizer.component';
 import {MoveManager} from './hex-visualizer/moves/MoveManager';
-import {FormValidatorService} from './services/form-validator.service';
+import { FormValidatorService } from './services/form-validator.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ModalComponent } from './modal/modal.component';
+
 
 @Component({
     selector: 'app-root',
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private messageSvc: NzMessageService,
                 private formValidatorSvc: FormValidatorService,
-                private _lightbox: Lightbox) {
+                public matDialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -42,26 +44,6 @@ export class AppComponent implements OnInit {
         // set default value
         this.gameControlsForm.get('startingPlayer').setValue(this.gameSettings.COLOR_LEFT_RIGHT);
         this.gameControlsForm.get('tileSize').setValue(20);
-        this._albums = [];
-        const src = 'assets/yosemite.jpg';
-        const caption = 'Image caption here';
-        const thumb = 'assets/yosemite.jpg';
-        const album = {
-            src: src,
-            caption: caption,
-            thumb: thumb
-        };
-        this._albums.push(album);
-    }
-    
-    open(index: number): void {
-        // open lightbox
-        this._lightbox.open(this._albums, index);
-    }
-    
-    close(): void {
-    // close lightbox programmatically
-    this._lightbox.close();
     }
 
     startGame() {
@@ -90,6 +72,14 @@ export class AppComponent implements OnInit {
         this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
         this.gameSettings.running = true;
         this.hexVisualizer.startGame();
+        const dialogConfig = new MatDialogConfig();
+        // The user can't close the dialog by clicking outside its body
+        dialogConfig.disableClose = false;
+        dialogConfig.id = "modal-component";
+        dialogConfig.height = "350px";
+        dialogConfig.width = "600px";
+        // https://material.angular.io/components/dialog/overview
+        const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
     }
 
     stopGame() {
