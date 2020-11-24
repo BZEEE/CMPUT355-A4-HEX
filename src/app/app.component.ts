@@ -81,4 +81,10 @@ export class AppComponent implements OnInit {
         this.hexVisualizer.checkWinState();
     }
 
+    startTutorial() {
+        this.gameSettings.rows = 3;
+        this.gameSettings.cols = 3;
+        this.gameSettings.currentTurn = "black";
+        
+    }
 }
