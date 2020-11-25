@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-modal',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<ModalComponent>) { }
 
   ngOnInit(): void {
+  }
+
+  doSomething() {
+    alert("DOING SOMETHING");
+    this.dialogRef.close();
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 
 }

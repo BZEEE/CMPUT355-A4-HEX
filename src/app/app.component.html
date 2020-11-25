@@ -38,7 +38,10 @@
                 </nz-form-item>
             </div>
         </form>
-        <button *ngIf="!gameSettings.running" nz-button nzType="primary" id="start-tutorial-btn" style="width: 100%; margin-bottom: 5%;" (click)="startTutorial()">TUTORIAL</button>
+        <main id="logout-button-holder">
+            <!-- <button mat-raised-button id="logout-button" (click)="startTutorial()">Logout</button> -->
+            <button *ngIf="!gameSettings.running" nz-button nzType="primary" id="start-tutorial-btn" style="width: 100%; margin-bottom: 5%;" (click)="startTutorial()">TUTORIAL</button>
+        </main>
         <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
         <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>        
         <!-- To place components size by side -->

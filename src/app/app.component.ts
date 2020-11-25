@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     gameSettings: GameSettingsSingleton;
     moveManager: MoveManager;
     // private _album: Array = [];
-    public _albums: Array<IAlbum>;
+    // public _albums: Array<IAlbum>;
 
     constructor(private fb: FormBuilder,
                 private messageSvc: NzMessageService,
@@ -74,7 +74,6 @@ export class AppComponent implements OnInit {
         this.hexVisualizer.startGame();
         const dialogConfig = new MatDialogConfig();
         // The user can't close the dialog by clicking outside its body
-        dialogConfig.disableClose = false;
         dialogConfig.id = "modal-component";
         dialogConfig.height = "350px";
         dialogConfig.width = "600px";
