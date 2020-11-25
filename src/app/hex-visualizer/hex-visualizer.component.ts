@@ -78,9 +78,4 @@ export class HexVisualizerComponent implements OnInit {
     notifyWon(color: GamePieceColor) {
         this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
     }
-
-    // showCurrentTurn() {
-    //     this.messageSvc.info("it is someone's turn rn");
-    // }
-  
 }

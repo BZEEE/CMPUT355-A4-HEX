@@ -13,11 +13,6 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  doSomething() {
-    alert("DOING SOMETHING");
-    this.dialogRef.close();
-  }
-
   closeModal() {
     this.dialogRef.close();
   }

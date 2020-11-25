@@ -1,12 +1,28 @@
 <div id="modal-content-wrapper">
     <header id="modal-header">
-        <h1 id="modal-title">Tutorial</h1>
+        <h1 id="modal-title">Welcome to Hex Visualizer!</h1>
     </header>
     <section id="modal-body">
-        <p>here's some description about the game</p>
+        <h2>Hex Rules</h2>
+        <ol>
+            <li>
+                Players choose a colour and take turns. On each turn one counter is placed in an empty hexagonal cell.
+            </li>
+            <li>
+                Counters may not be moved except with the swap rule.
+            </li>
+            <li>
+                The first player to form a connected path of their counters linking the opposing sides of the board marked by their colour wins.
+            </li>
+            <li>
+                The four corner hexagons belong to both adjacent sides.
+            </li>
+            <li>
+                Swap rule: on their first move the second player may move normally, or choose to swap their piece with that placed by the first player. [This encourages the first player to only choose a moderately strong first move and so reduces any advantage of going first. Ignore the swap rule for the first few games.]
+            </li>
+        </ol>
     </section>
     <footer id="modal-footer">
-        <button mat-raised-button id="modal-action-button" (click)="doSomething()">Ok</button>
-        <!-- <button mat-raised-button id="modal-cancel-button" (click)="closeModal()">Go back</button> -->
+        <button mat-raised-button id="modal-action-button" (click)="closeModal()">Ok</button>
     </footer>
 </div>

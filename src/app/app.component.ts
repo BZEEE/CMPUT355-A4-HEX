@@ -80,8 +80,7 @@ export class AppComponent implements OnInit {
         // https://material.angular.io/components/dialog/overview
         const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
         this.matDialog.afterAllClosed.subscribe(results=> {
-            this.messageSvc.info("Black must must make an opening move now");
-            // this.hexVisualizer.showCurrentTurn();
+            this.messageSvc.info("Black must must make an opening move now. Start by clicking on an empty cell on the grid to do so.");
         })
     }
 
