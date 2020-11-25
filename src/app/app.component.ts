@@ -72,15 +72,16 @@ export class AppComponent implements OnInit {
         this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
         this.gameSettings.running = true;
         this.hexVisualizer.startGame();
+        // start the tutorial dialog
         const dialogConfig = new MatDialogConfig();
-        // The user can't close the dialog by clicking outside its body
         dialogConfig.id = "modal-component";
         dialogConfig.height = "350px";
         dialogConfig.width = "600px";
         // https://material.angular.io/components/dialog/overview
         const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
-        this.matDialog.afterAllClosed.subscribe(result => {
-            console.log('results', result);
+        this.matDialog.afterAllClosed.subscribe(results=> {
+            this.messageSvc.info("Black must must make an opening move now");
+            // this.hexVisualizer.showCurrentTurn();
         })
     }
 

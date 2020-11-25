@@ -27,7 +27,7 @@ export class HexVisualizerComponent implements OnInit {
     }
 
     startGame() {
-        this.hexGrid = new HexGrid();
+        this.hexGrid = new HexGrid(this.messageSvc);
 
         // Force a check so that GameResult gets updated.
         this.checkWinState();
@@ -79,12 +79,8 @@ export class HexVisualizerComponent implements OnInit {
         this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
     }
 
-    startTutorial() {
-      // this.checkWinState();
-      // this.animationLoop();
-      if (this.hexGrid.gameSettingsSingleton.getBoardSpacesAsMatrix()) {
-        console.log();
-      }
-    }
+    // showCurrentTurn() {
+    //     this.messageSvc.info("it is someone's turn rn");
+    // }
   
 }
