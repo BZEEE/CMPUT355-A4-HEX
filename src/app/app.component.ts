@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
             this.gameSettings.rows = this.gameControlsForm.get('rows').value;
             this.gameSettings.cols = this.gameControlsForm.get('cols').value;
             this.gameSettings.currentTurn = this.gameControlsForm.get('startingPlayer').value;
-
+            this.gameSettings.tutorialMode = false;
             // Disable form when game is running
             this.gameControlsForm.disable();
 
@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
         this.gameControlsForm.disable();
         this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
         this.gameSettings.running = true;
+        this.gameSettings.tutorialMode = true;
         this.hexVisualizer.startGame();
         // start the tutorial dialog
         const dialogConfig = new MatDialogConfig();

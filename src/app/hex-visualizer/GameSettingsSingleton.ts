@@ -22,6 +22,8 @@ export class GameSettingsSingleton {
 
     public running: boolean;
 
+    public tutorialMode: boolean;
+
     private boardMatrix: Array<Array<BoardSpace>>;
 
     private hexagonRadius: number;

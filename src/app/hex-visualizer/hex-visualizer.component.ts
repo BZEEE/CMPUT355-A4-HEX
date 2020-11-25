@@ -3,7 +3,9 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CanvasSingleton} from './board/CanvasSingleton';
 import {HexGrid} from './board/HexGrid';
 import {NzMessageService} from 'ng-zorro-antd';
-import {GamePieceColor} from './board/GamePieceColor';
+import { GamePieceColor } from './board/GamePieceColor';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
     selector: 'app-hex-visualizer',
@@ -15,7 +17,7 @@ export class HexVisualizerComponent implements OnInit {
     hexGrid: HexGrid;
     animationId: number;
 
-    constructor(private messageSvc: NzMessageService) {
+    constructor(private messageSvc: NzMessageService, public matDialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -31,7 +33,6 @@ export class HexVisualizerComponent implements OnInit {
 
         // Force a check so that GameResult gets updated.
         this.checkWinState();
-
         this.animationLoop();
     }
 
@@ -68,6 +69,18 @@ export class HexVisualizerComponent implements OnInit {
     checkWinState() {
         if (this.hexGrid.checkWinState()) {
             this.notifyWon(this.hexGrid.gameSettingsSingleton.currentGameResult.winner);
+            if (this.hexGrid.gameSettingsSingleton.tutorialMode) {
+                // start the tutorial dialog
+                const dialogConfig = new MatDialogConfig();
+                dialogConfig.id = "modal-component";
+                dialogConfig.height = "350px";
+                dialogConfig.width = "600px";
+                // https://material.angular.io/components/dialog/overview
+                const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
+                this.matDialog.afterAllClosed.subscribe(results=> {
+                    this.messageSvc.info("Black must must make an opening move now. Start by clicking on an empty cell on the grid to do so.");
+                })
+            }
         }
     }
 
