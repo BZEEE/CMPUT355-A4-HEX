@@ -79,6 +79,9 @@ export class AppComponent implements OnInit {
         dialogConfig.width = "600px";
         // https://material.angular.io/components/dialog/overview
         const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
+        this.matDialog.afterAllClosed.subscribe(result => {
+            console.log('results', result);
+        })
     }
 
     stopGame() {
