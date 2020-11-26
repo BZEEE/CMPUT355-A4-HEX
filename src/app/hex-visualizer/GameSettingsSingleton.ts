@@ -23,6 +23,7 @@ export class GameSettingsSingleton {
     public running: boolean;
 
     public tutorialMode: boolean;
+    public tutorialDone: boolean;
 
     private boardMatrix: Array<Array<BoardSpace>>;
 

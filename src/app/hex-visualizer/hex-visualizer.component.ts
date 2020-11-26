@@ -70,6 +70,7 @@ export class HexVisualizerComponent implements OnInit {
         if (this.hexGrid.checkWinState()) {
             this.notifyWon(this.hexGrid.gameSettingsSingleton.currentGameResult.winner);
             if (this.hexGrid.gameSettingsSingleton.tutorialMode) {
+                this.hexGrid.gameSettingsSingleton.tutorialDone = true;
                 // start the tutorial dialog
                 const dialogConfig = new MatDialogConfig();
                 dialogConfig.id = "modal-component";
@@ -77,9 +78,6 @@ export class HexVisualizerComponent implements OnInit {
                 dialogConfig.width = "600px";
                 // https://material.angular.io/components/dialog/overview
                 const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
-                this.matDialog.afterAllClosed.subscribe(results=> {
-                    this.messageSvc.info("Black must must make an opening move now. Start by clicking on an empty cell on the grid to do so.");
-                })
             }
         }
     }

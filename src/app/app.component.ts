@@ -22,8 +22,6 @@ export class AppComponent implements OnInit {
     playerOptions: string[];
     gameSettings: GameSettingsSingleton;
     moveManager: MoveManager;
-    // private _album: Array = [];
-    // public _albums: Array<IAlbum>;
 
     constructor(private fb: FormBuilder,
                 private messageSvc: NzMessageService,
@@ -72,6 +70,7 @@ export class AppComponent implements OnInit {
         this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
         this.gameSettings.running = true;
         this.gameSettings.tutorialMode = true;
+        this.gameSettings.tutorialDone = false;
         this.hexVisualizer.startGame();
         // start the tutorial dialog
         const dialogConfig = new MatDialogConfig();

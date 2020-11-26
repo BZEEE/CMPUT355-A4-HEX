@@ -2,7 +2,7 @@
     <header id="modal-header">
         <h1 id="modal-title">Welcome to Hex Visualizer!</h1>
     </header>
-    <section id="modal-body">
+    <section *ngIf="!gameSettings.tutorialDone" id="modal-body">
         <h2>Hex Rules</h2>
         <ol>
             <li>
@@ -22,6 +22,23 @@
             </li>
         </ol>
         <p>official rules taken from <a href="https://www.maths.ed.ac.uk/~csangwin/hex/index.html" target="_blank" style="color: black;">https://www.maths.ed.ac.uk/~csangwin/hex/index.html</a>. Follow the link for more information on topics such as strategies!</p>
+    </section>
+    <section *ngIf="gameSettings.tutorialDone" id="modal-body">
+        <h2>Congratulations!</h2>
+        <p>
+            You have now completed the tutorial. Additional settings may be changed to the left of the display.
+        </p>
+        <ul>
+            <li>
+                Change the size of the grid by entering values into the rows, and the columns.
+            </li>
+            <li>
+                Change the player to start by clicking on the starting player, if you do not want to start with black.
+            </li>
+            <li>
+                Change the default tile sizes to make the cells bigger or smaller using the slider.
+            </li>
+        </ul>
     </section>
     <footer id="modal-footer">
         <button mat-raised-button id="modal-action-button" (click)="closeModal()">Ok</button>
