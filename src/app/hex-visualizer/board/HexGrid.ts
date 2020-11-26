@@ -115,6 +115,11 @@ export class HexGrid {
 
         }
 
+        // determine if the win state has changed from the previous result.
+        if (this.gameSettingsSingleton.currentGameResult !== undefined) {
+            this.gameSettingsSingleton.winStateHasChanged = this.gameSettingsSingleton.currentGameResult.hasWon !== result.hasWon;
+        }
+
         this.gameSettingsSingleton.currentGameResult = result;
 
         return result.hasWon;

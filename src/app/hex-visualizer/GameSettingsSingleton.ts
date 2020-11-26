@@ -19,6 +19,7 @@ export class GameSettingsSingleton {
     public currentTurn: string;
 
     public currentGameResult: GameResult;
+    public winStateHasChanged = true;
 
     public running: boolean;
 

@@ -93,6 +93,11 @@ export class HexVisualizerComponent implements OnInit {
      * @param color The color to include in the message.
      */
     notifyWon(color: GamePieceColor) {
-        this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
+
+        // Only display when the win state has changed, because if it hasn't, then we'd just redisplay the same toast. It's also not possible to make the other player win in one move, as you'd have to undo, flipping the state of the variable.
+        if (this.hexGrid.gameSettingsSingleton.winStateHasChanged) {
+            this.messageSvc.success(color + ' has won the game!', {nzDuration: 5000});
+        }
+
     }
 }
