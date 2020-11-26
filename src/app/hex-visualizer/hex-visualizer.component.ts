@@ -78,14 +78,16 @@ export class HexVisualizerComponent implements OnInit {
     checkWinState() {
         if (this.hexGrid.checkWinState()) {
             this.notifyWon(this.hexGrid.gameSettingsSingleton.currentGameResult.winner);
+            // Show dialog if we are in tutorial mode.
             if (this.hexGrid.gameSettingsSingleton.tutorialMode) {
                 this.hexGrid.gameSettingsSingleton.tutorialDone = true;
-                // start the tutorial dialog
+                // Start the tutorial dialog.
+                // https://material.angular.io/components/dialog/overview
+                // https://blog.angular-university.io/angular-material-dialog/
                 const dialogConfig = new MatDialogConfig();
                 dialogConfig.id = 'modal-component';
-                dialogConfig.height = '350px';
+                dialogConfig.height = '500px';
                 dialogConfig.width = '600px';
-                // https://material.angular.io/components/dialog/overview
                 this.matDialog.open(ModalComponent, dialogConfig);
             }
         }

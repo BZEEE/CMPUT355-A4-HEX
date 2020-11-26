@@ -61,23 +61,26 @@ export class AppComponent implements OnInit {
         }
     }
 
-    // simple tutorial
+    // instantiates the tutorial
     startTutorial() {
+        // creates the default tutorial gameSettings
         this.gameSettings.rows = 3;
         this.gameSettings.cols = 3;
         this.gameSettings.currentTurn = "Black";
         this.gameControlsForm.disable();
-        this.gameSettings.setRadius(this.gameControlsForm.get('tileSize').value);
+        this.gameSettings.setRadius(32);
         this.gameSettings.running = true;
         this.gameSettings.tutorialMode = true;
         this.gameSettings.tutorialDone = false;
+        // start the game
         this.hexVisualizer.startGame();
         // start the tutorial dialog
+        // https://material.angular.io/components/dialog/overview
+        // https://blog.angular-university.io/angular-material-dialog/
         const dialogConfig = new MatDialogConfig();
         dialogConfig.id = "modal-component";
-        dialogConfig.height = "350px";
+        dialogConfig.height = "600px";
         dialogConfig.width = "600px";
-        // https://material.angular.io/components/dialog/overview
         this.matDialog.open(ModalComponent, dialogConfig);
     }
 
