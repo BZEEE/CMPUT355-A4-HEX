@@ -3,10 +3,10 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CanvasSingleton} from './board/CanvasSingleton';
 import {HexGrid} from './board/HexGrid';
 import {NzMessageService} from 'ng-zorro-antd';
-import { GamePieceColor } from './board/GamePieceColor';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ModalComponent } from '../modal/modal.component';
-import { GameSettingsSingleton } from './GameSettingsSingleton';
+import {GamePieceColor} from './board/GamePieceColor';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {ModalComponent} from '../modal/modal.component';
+import {GameSettingsSingleton} from './GameSettingsSingleton';
 
 @Component({
     selector: 'app-hex-visualizer',
@@ -62,9 +62,12 @@ export class HexVisualizerComponent implements OnInit {
 
         // check for win state after previous input, only if the game is running.
         if (this.hexGrid.gameSettingsSingleton.running) {
+
             this.checkWinState();
-            if(!this.gameSettingsSingleton.currentGameResult.hasWon) {
-                this.messageSvc.info(this.gameSettingsSingleton.currentTurn + " must now make a move");
+
+            // Only display this when the game hasn't been won AND the game is in tutorial mode
+            if (!this.gameSettingsSingleton.currentGameResult.hasWon && this.gameSettingsSingleton.tutorialMode) {
+                this.messageSvc.info(this.gameSettingsSingleton.currentTurn + ' must now make a move');
             }
         }
     }
@@ -79,9 +82,9 @@ export class HexVisualizerComponent implements OnInit {
                 this.hexGrid.gameSettingsSingleton.tutorialDone = true;
                 // start the tutorial dialog
                 const dialogConfig = new MatDialogConfig();
-                dialogConfig.id = "modal-component";
-                dialogConfig.height = "350px";
-                dialogConfig.width = "600px";
+                dialogConfig.id = 'modal-component';
+                dialogConfig.height = '350px';
+                dialogConfig.width = '600px';
                 // https://material.angular.io/components/dialog/overview
                 this.matDialog.open(ModalComponent, dialogConfig);
             }
