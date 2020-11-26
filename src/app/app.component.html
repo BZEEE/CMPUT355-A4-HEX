@@ -38,11 +38,11 @@
                 </nz-form-item>
             </div>
         </form>
+        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; margin-bottom: 5%;" (click)="startGame()">START GAME</button>
         <main id="logout-button-holder">
             <button *ngIf="!gameSettings.running" nz-button nzType="primary" id="start-tutorial-btn" style="width: 100%; margin-bottom: 5%;" (click)="startTutorial()">TUTORIAL</button>
         </main>
-        <button *ngIf="!gameSettings.running" nz-button nzType="primary" style="width: 100%; " (click)="startGame()">START GAME</button>
-        <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>        
+        <button *ngIf="gameSettings.running" nz-button nzDanger nzType="primary" style="width: 100%; " (click)="stopGame()">STOP GAME</button>
         <!-- To place components size by side -->
         <div style="display: flex; justify-content: space-evenly; margin-top: 15px;">
             <button *ngIf="gameSettings.running" [disabled]="moveManager.getHistoryList().length <= 0" nz-button nzType="primary" style="width: 100%; margin-right: 7px;" (click)="undoMove()">UNDO MOVE</button>
