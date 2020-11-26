@@ -6,6 +6,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 import { GamePieceColor } from './board/GamePieceColor';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
+import { GameSettingsSingleton } from './GameSettingsSingleton';
 
 @Component({
     selector: 'app-hex-visualizer',
@@ -16,6 +17,7 @@ export class HexVisualizerComponent implements OnInit {
     @ViewChild('canvas', {static: true}) canvasRef: ElementRef<HTMLCanvasElement>;
     hexGrid: HexGrid;
     animationId: number;
+    gameSettingsSingleton: GameSettingsSingleton;
 
     constructor(private messageSvc: NzMessageService, public matDialog: MatDialog) {
     }
@@ -26,6 +28,7 @@ export class HexVisualizerComponent implements OnInit {
         CanvasSingleton.getInstance().getCanvas().width = Math.round(window.innerWidth * 0.8);
         CanvasSingleton.getInstance().getCanvas().height = window.innerHeight;
         CanvasSingleton.getInstance().getCanvas().style.backgroundColor = '#db591d';
+        this.gameSettingsSingleton = GameSettingsSingleton.getInstance();
     }
 
     startGame() {
@@ -60,6 +63,9 @@ export class HexVisualizerComponent implements OnInit {
         // check for win state after previous input, only if the game is running.
         if (this.hexGrid.gameSettingsSingleton.running) {
             this.checkWinState();
+            if(!this.gameSettingsSingleton.currentGameResult.hasWon) {
+                this.messageSvc.info(this.gameSettingsSingleton.currentTurn + " must now make a move");
+            }
         }
     }
 
@@ -77,7 +83,7 @@ export class HexVisualizerComponent implements OnInit {
                 dialogConfig.height = "350px";
                 dialogConfig.width = "600px";
                 // https://material.angular.io/components/dialog/overview
-                const modalDialog = this.matDialog.open(ModalComponent, dialogConfig);
+                this.matDialog.open(ModalComponent, dialogConfig);
             }
         }
     }

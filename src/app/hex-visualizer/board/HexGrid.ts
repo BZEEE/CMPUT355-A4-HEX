@@ -82,13 +82,11 @@ export class HexGrid {
                             MoveManager.getInstance().invokeCommand(new MoveCommand(new Move(i, j, GamePieceColor.Black)));
                             // set that it is white's turn to now make a move
                             this.gameSettingsSingleton.currentTurn = GamePieceColor.White;
-                            this.messageSvc.info(this.gameSettingsSingleton.currentTurn + " must now make a move");
                         } else if (this.gameSettingsSingleton.currentTurn == GamePieceColor.White) {
                             // let Move Manager know that we made a valid move
                             MoveManager.getInstance().invokeCommand(new MoveCommand(new Move(i, j, GamePieceColor.White)));
                             // set that it is white's turn to now make a move
                             this.gameSettingsSingleton.currentTurn = GamePieceColor.Black;
-                            this.messageSvc.info(this.gameSettingsSingleton.currentTurn + " must now make a move");
                         }
                     }
                 }
